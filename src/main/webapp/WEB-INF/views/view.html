@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="/layout :: head">
+    <title>DetailCity</title>
+</head>
+<body>
+<h3>View City</h3>
+<p>
+    <a th:href="@{/city}">
+        Back to customer list
+    </a>
+</p>
+<div id="detail">
+    <div class="cus-detail">
+        <label>Name:</label>
+        <label th:text="${city.name}"></label>
+    </div>
+    <div class="cus-detail">
+        <label>Nation:</label>
+        <label th:text="${city.nation}"></label>
+    </div>
+    <div class="cus-detail">
+        <label>Acreage:</label>
+        <label th:text="${city.acreage}"></label>
+    </div>
+    <div class="cus-detail">
+        <label>Population:</label>
+        <label th:text="${city.population}"></label>
+    </div>
+    <div class="cus-detail">
+        <label>GDP:</label>
+        <label th:text="${city.gdp}"></label>
+    </div>
+    <div class="cus-detail">
+        <label>Describee:</label>
+        <label th:text="${city.describee}"></label>
+    </div>
+
+
+</div>
+<footer th:replace="/layout :: footer"></footer>
+</body>
+</html>
