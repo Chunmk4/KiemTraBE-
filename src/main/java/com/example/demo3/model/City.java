@@ -1,6 +1,8 @@
 package com.example.demo3.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "city")
@@ -8,13 +10,19 @@ public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String name;
     private String nation;
     private int acreage;
     private int population;
-    private int gdp;
     private String describee;
-    public City(){}
+
+    @NotBlank(message = "Ban phai nhap ten")
+    private String name;
+
+    @Min(value = 10, message = "ban phai nhap GDP >10")
+    private int gdp;
+
+    public City() {
+    }
 
     public City(String name, String nation, int acreage, int population, int gdp, String describe) {
         this.name = name;

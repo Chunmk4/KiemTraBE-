@@ -10,6 +10,10 @@
         Back to city list
     </a>
 </p>
+<div th:each = "row : ${listErr}">
+    <h1 th:text="${row.getDefaultMessage()}"></h1>
+
+</div>
 <div id="form">
     <form th:action="@{/city/save}" th:object="${city}"
           method="POST" novalidate="novalidate">

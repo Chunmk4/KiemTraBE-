@@ -3,26 +3,29 @@ package com.example.demo3.controller;
 import com.example.demo3.model.City;
 import com.example.demo3.service.CityService;
 import com.example.demo3.service.ICityService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
 @RequestMapping("/city")
 public class CityController {
     private ICityService cityService = new CityService();
+
     @GetMapping("")
     public String city(Model model) {
-       List<City> list =  cityService.findAll();
+        List<City> list = cityService.findAll();
         System.out.println(list);
-       model.addAttribute("city", list);
+        model.addAttribute("city", list);
         return "/index";
     }
 
@@ -34,9 +37,14 @@ public class CityController {
     }
 
     @PostMapping("/save")
-    public String save(City city) {
+    public ModelAndView save(@Valid City city, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            ModelAndView modelAndView = new ModelAndView("/create");
+            modelAndView.addObject("listErr", bindingResult.getAllErrors());
+            return modelAndView;
+        }
         cityService.save(city);
-        return "redirect:/city";
+        return new ModelAndView("redirect:/city");
     }
 
     @GetMapping("/{id}/edit")
@@ -46,14 +54,20 @@ public class CityController {
     }
 
     @PostMapping("/update")
-    public String update(City city) {
+    public ModelAndView update(@Valid City city, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            ModelAndView modelAndView = new ModelAndView("/update");
+            modelAndView.addObject("listErr",bindingResult.getAllErrors());
+            return modelAndView;
+
+        }
         cityService.save(city);
-        return "redirect:/city";
+        return new ModelAndView( "redirect:/city");
     }
 
 
     @GetMapping("/{id}/delete")
-    public String delete(@PathVariable int id , RedirectAttributes redirect) {
+    public String delete(@PathVariable int id, RedirectAttributes redirect) {
         City city = cityService.findById(id);
         cityService.remove(city.getId());
         redirect.addFlashAttribute("success", "Removed customer successfully!");
